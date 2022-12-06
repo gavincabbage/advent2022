@@ -26,10 +26,10 @@ fn main() {
 
 fn part1(data: &str) -> usize {
     let mut pos = 0;
-    data.chars().enumerate().skip(3).any(|(ndx, _c)|  {
-        let set: HashSet<char> = HashSet::from_iter(data[ndx-3..ndx+1].chars().into_iter());
+    (0..data.len()).skip(3).any(|i|  {
+        let set: HashSet<char> = HashSet::from_iter(data[i-3..i+1].chars().into_iter());
         if set.len() == 4 {
-            pos = ndx + 1;
+            pos = i + 1;
             true
         } else {
             false
@@ -40,10 +40,10 @@ fn part1(data: &str) -> usize {
 
 fn part2(data: &str) -> usize {
     let mut pos = 0;
-    data.chars().enumerate().skip(13).any(|(ndx, _c)|  {
-        let set: HashSet<char> = HashSet::from_iter(data[ndx-13..ndx+1].chars().into_iter());
+    (0..data.len()).skip(13).any(|i|  {
+        let set: HashSet<char> = HashSet::from_iter(data[i-13..i+1].chars().into_iter());
         if set.len() == 14 {
-            pos = ndx + 1;
+            pos = i + 1;
             true
         } else {
             false
