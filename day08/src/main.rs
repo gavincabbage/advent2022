@@ -13,7 +13,7 @@ fn main() {
     let input_file = Data::get("input.txt").unwrap();
     let input_data = std::str::from_utf8(input_file.data.as_ref()).unwrap();
     assert_eq!(1816, part1(input_data));
-    assert_eq!(0, part2(input_data));
+    assert_eq!(383520, part2(input_data));
 }
 
 fn part1(data: &str) -> usize {
