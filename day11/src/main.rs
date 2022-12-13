@@ -54,9 +54,6 @@ fn part2(data: &str) -> u64 {
         }
     }
 
-    monkeys.iter().for_each(|m| {
-        println!("{}", m.inspections);
-    });
     monkeys.sort_unstable_by(|a, b| b.inspections.cmp(&a.inspections));
     monkeys.iter().take(2).fold(1, |x, monkey| {
         x * monkey.inspections
@@ -187,70 +184,6 @@ fn parse_op2(data: &str) ->  Box<dyn Fn(HashMap<u64, u64>) -> HashMap<u64, u64>>
 
     }
 }
-
-/*
-mult 5, divisor 3
-n = 3, r = 0, 15, 0
-n = 4, r = 1, 20, 2
-n = 5, r = 2, 25, 1
-n = 6, r = 0, 30, 0
-n = 7, r = 1, 35, 2
-n = 8, r = 2, 40, 1
-n = 9, r = 0, 45, 0
-
-mult 7, divisor 5
-n = 5, r = 0, 35, 0
-n = 6, r = 1, 42, 2
-n = 7, r = 2, 49, 4
-n = 8, r = 3, 56, 1
-n = 9, r = 4, 63, 3
-n = 10, r = 0, 70, 0
-n = 11, r = 1, 77, 2
-n = 12, r = 2, 84, 4
-n = 13, r = 3, 91, 1
-n = 14, r = 4, 98, 3
-n = 15, r = 0, _, 0
- */
-
-/*
-divisor 5
-n = 5, r = 0 -> 25 -> r = 0
-n = 6, r = 1 -> 36 -> r = 1
-n = 7, r = 2 -> 49 -> r = 4
-n = 8, r = 3 -> 64 -> r = 4
-n = 9, r = 4 -> 81 -> r = 1
-n = 10, r = 0 -> 100 -> r = 0
-n = 12, r = 2 -> 4
-n = 13, r = 3 -> 4
-n = 14, r = 4 -> 1
-n = 19, r = 4 -> 1
-
-divisor 6
-n = 6, r = 0 -> 36 -> r = 0
-n = 7, r = 1 -> 49 => r = 1
-n = 8, r = 2 -> 64 => r = 4
-n = 9, r = 3 -> 81 -> r = 3
-n = 10, r = 4 -> 100 -> r = 4
-n = 11, r = 5 -> 121 -> r = 1
-n =
-
-divisor 3
-n = 4, r = 1, 16, r = 1
-n = 5, r = 2, 25, r = 1
-n = 6, r = 3
-
-divisor 7
-n = 8, r = 1, 64, r = 1
-n = 9, r = 2, 81, r = 4
-n = 10, r = 3, 100, r = 2
-n = 11, r = 4, 121, r = 2
-n = 12, r = 5, 144, r = 4
-n = 13, r = 6,     r = 1
-n = 18, r = 4,     r = 2
-n = 19, r = 5, r = 4
-
-
- */
 
 fn parse_test(data: &[&str]) ->  Box<dyn Fn(u64) -> u64> {
     let get_last = |s: &str| {
