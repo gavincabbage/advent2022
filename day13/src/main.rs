@@ -11,10 +11,12 @@ fn main() {
     let example_file = Data::get("example.txt").unwrap();
     let example_data = std::str::from_utf8(example_file.data.as_ref()).unwrap();
     assert_eq!(13, part1(example_data));
+    assert_eq!(140, part2(example_data));
 
     let input_file = Data::get("input.txt").unwrap();
     let input_data = std::str::from_utf8(input_file.data.as_ref()).unwrap();
-    assert_eq!(0, part1(input_data));
+    assert_eq!(5843, part1(input_data));
+    assert_eq!(0, part2(input_data));
 }
 
 fn part1(data: &str) -> usize {
@@ -27,8 +29,29 @@ fn part1(data: &str) -> usize {
     }).sum()
 }
 
+fn part2(data: &str) -> usize {
+    let mut packets: Vec<Value> = data.lines()
+        .filter(|l| *l != "")
+        .chain(vec!["[[2]]", "[[6]]"].into_iter())
+        .map(|x| serde_json::from_str(x).unwrap())
+        .collect();
+
+    packets.sort_unstable_by(sort);
+
+    packets.iter()
+        .map(|x| serde_json::to_string(x).unwrap())
+        .enumerate()
+        .filter(|(_, x)| x == "[[2]]" || x == "[[6]]")
+        .map(|(n, _)| n+1)
+        .product()
+}
+
 fn in_order(left: Value, right: Value) -> bool {
     cmp(left, right) == Ordering::Less
+}
+
+fn sort(left: &Value, right: &Value) -> Ordering {
+    cmp(left.clone(), right.clone())
 }
 
 fn cmp(left: Value, right: Value) -> Ordering {
@@ -52,13 +75,15 @@ fn cmp(left: Value, right: Value) -> Ordering {
         (Array(x), Array(y)) => {
             let max = max(x.len(), y.len());
             let mut result = Ordering::Equal;
-            for ndx in 0..max {
+            let mut ndx = 0;
+            while result == Ordering::Equal && ndx < max {
                 result = match (x.get(ndx), y.get(ndx)) {
                     (Some(_), None) => Ordering::Greater,
                     (None, Some(_)) => Ordering::Less,
                     (Some(x), Some(y)) => cmp(x.clone(), y.clone()),
                     (None, None) => unreachable!(),
-                }
+                };
+                ndx += 1;
             }
             result
         },
